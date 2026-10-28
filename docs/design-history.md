@@ -120,6 +120,12 @@
 
 **変更:** 公開 GitHub リポジトリを `ozy4dm/ahc-template` から `ozy4dm/ahc-with-ai-template` へ改名した。README の見出しと Git の `origin`、GitHub の説明文も新しい用途に合わせた。ローカルの作業フォルダ名は変更していない。過去の記録にある `ahc-template` は当時の名前として残す。
 
+## 2026-10-28: ローカル作業フォルダの改名
+
+**参加者の依頼:** GitHub の改名に合わせて、ローカルの作業フォルダも変更する。
+
+**変更:** `C:\Users\ozy4d\works\ahc-template` を `C:\Users\ozy4d\works\ahc-with-ai-template` へ改名した。Git の履歴と `origin` は維持する。前節にある「ローカルの作業フォルダ名は変更していない」は、GitHub を改名した時点の状態を記録した文である。
+
 ## 今後の記録方法
 
 テンプレートを変更するたびに、この文書へ次の情報を追記します。未確認のことは「未確認」と記し、後から根拠を推測して埋めません。
