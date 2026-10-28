@@ -1,14 +1,13 @@
 # AHC workspace template
 
-AHC の各回で使う実験記録と比較ツールの雛形です。AHC072 で使用した実験記録、結果一覧、スコアボード、ケース比較の仕組みから、問題に依存しない部分を取り出しました。解法、入力、公式テスタは含めていません。
+長期 AHC の **With AI 部門** で使う実験記録と比較ツールの雛形です。AHC072 で使用した実験記録、結果一覧、スコアボード、ケース比較の仕組みから、問題に依存しない部分を取り出しました。解法、入力、公式テスタは含めていません。Human Only 部門には使用しないでください。
 
 初めて使う方は [利用者向けガイド](docs/user-guide.md) を参照してください。設計と変更の根拠を追う場合は [設計・開発の履歴](docs/design-history.md) からコミットへ進めます。
 
 ## 新しい大会での準備
 
 1. このリポジトリを大会用フォルダへ複製します。
-2. `AGENTS.md` を開催時点の公式な生成 AI 利用ルールと照合し、必要なら全文を更新します。現行ファイルは暫定版です。
-   Claude Code では `CLAUDE.md` が `AGENTS.md` を読み込みます。新しいルールに変わった場合、正本の `AGENTS.md` と Claude 用スキル・プロンプトの整合性を確認してください。
+2. 大会ページの「部門」タブで With AI 部門を選び、[20261026版の公式ルール](https://info.atcoder.jp/entry/long-ahc-llm-rules-ja)と、その大会に適用される条件を確認します。`AGENTS.md` はこの部門用の作業指示です。Claude Code では `CLAUDE.md` がこれを読み込みます。ルールが更新された場合は、指示とスキル・プロンプトの整合性を確認してください。
 3. 参加者がブラウザで問題文と公式 generator / tester / visualizer を取得し、問題文 PDF は `local/problem.pdf`、公式ツールは `tools/` に置きます。両ディレクトリは Git の管理対象から除外しています。公式配布物のライセンスと公開条件を確認してください。
 4. `config.example.json` を `config.json` にコピーし、入力、スコアの向き、ソルバーと採点コマンドを設定します。Windows では実行ファイル名に `.exe` を付けます。実行ファイルの相対パスは `/` 区切りのままでよく、リポジトリのルートから解決されます。
 5. 入力を `cases/` の該当する集合へ置き、`docs/experiments/TEMPLATE.md` を複製して評価条件を先に記録します。
@@ -25,7 +24,7 @@ python scripts/show_scoreboard.py --direction lower
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/show_experiment_results.ps1
 ```
 
-比較結果は `reports/experiments/EXP-xxx/` に保存されます。同じ ID の結果は上書きしません。`show_scoreboard.py` は全ケースが揃った版だけを順位表へ載せます。比較や順位表は機械的な集計のみ行い、採用判断は行いません。
+比較結果は `reports/experiments/EXP-xxx/` に保存されます。同じ ID の結果は上書きしません。`show_scoreboard.py` は全ケースが揃った版だけを順位表へ載せます。AI に結果の分析や採用案の提案も依頼できます。判断の経緯は `docs/decisions.md` に記録します。
 
 ## 構成
 
@@ -37,7 +36,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/show_experiment_resu
 | `cases/regression/` | 過去に問題が出たケース |
 | `docs/experiments/` | 実験計画と記録 |
 | `docs/solutions.md` | 解法版の台帳 |
-| `docs/decisions.md` | 参加者が決めた採用・棄却などの判断 |
+| `docs/decisions.md` | 提案者・判断者を含む採用・棄却の記録 |
 | `reports/experiments/` | 実行結果 |
 | `src/bin/` | 大会ごとの解答コード |
 | `scripts/` | 共通の比較・集計スクリプト |
@@ -47,9 +46,9 @@ AHC072 固有の解法、公式ツール、生成入力、診断用スクリプ�
 
 ## Claude Code で使う
 
-リポジトリのルートで Claude Code を起動します。`CLAUDE.md` に共通の作業指示があり、ルール全文は `@AGENTS.md` で読み込まれます。起動後に `/context` で読み込みを確認してください。`.claude/skills/` には `/ahc-setup`、`/ahc-implement`、`/ahc-experiment` と、依頼文を実行せずに点検する `/ahc-rule-check` の手動スキルを用意しています。記入例は [prompts/README.md](prompts/README.md) にあります。
+リポジトリのルートで Claude Code を起動します。`CLAUDE.md` には共通の作業指示、`AGENTS.md` には With AI 部門用の境界があります。起動後に `/context` で読み込みを確認してください。`.claude/skills/` の `/ahc-setup`、`/ahc-implement`、`/ahc-experiment` は手動スキルです。記入例は [prompts/README.md](prompts/README.md) にあります。
 
-`/ahc-rule-check` は事前の補助チェックです。依頼文だけから参加者の意図や最終的な違反の有無までは判定できません。開催時点の正式ルールを確認し、生成 AI との対話・作業ログを保存してください。
+With AI 部門では解法の考案、実装、実験、結果に基づく改善も AI に依頼できます。ただし、他者が関わった非公開モデル・ハーネスの利用禁止と、通常の AHC ルールは引き続き適用されます。大会固有のルールも確認してください。
 
 ## ライセンス
 
